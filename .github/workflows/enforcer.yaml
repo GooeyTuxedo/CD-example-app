@@ -9,8 +9,11 @@ jobs:
   check_branch:
     runs-on: ubuntu-latest
     steps:
+      - name: Set env
+        run: export STAGING_SHA=$(git rev-parse HEAD) && \
+          export MAIN_SHA=$(git rev-parse HEAD)
       - name: Check branch
-        if: github.base_ref == 'main' && github.head_ref != 'staging'
+        if: ${{ env.MAIN_SHA != env.STAGING_SHA }}
         run: |
           echo "ERROR: You can only merge to main from staging."
           exit 1
