@@ -1,7 +1,9 @@
 name: 'Check Branch'
 
 on:
-  check_suite:
+  push:
+    branches:
+      - main
 
 jobs:
   check_branch:
