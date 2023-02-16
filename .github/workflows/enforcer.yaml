@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set env
-        run: export STAGING_SHA=$(git rev-parse HEAD) && \
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+        run: export STAGING_SHA=$(git rev-parse staging) && \
           export MAIN_SHA=$(git rev-parse HEAD)
       - name: Check branch
         if: ${{ env.MAIN_SHA != env.STAGING_SHA }}
