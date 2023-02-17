@@ -15,7 +15,6 @@ jobs:
       - name: Set env
         run: echo "STAGING_SHA=$(git rev-parse staging)" >> $GITHUB_ENV 
       - name: Check branch
-        if: ${{ github.sha != env.STAGING_SHA }}
         run: |
           if [[ ${{ github.sha }} == ${{ env.STAGING_SHA }} ]]; then
             exit 0
