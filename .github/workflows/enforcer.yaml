@@ -17,5 +17,9 @@ jobs:
       - name: Check branch
         if: ${{ github.sha != env.STAGING_SHA }}
         run: |
-          echo "ERROR: You can only merge to main from staging."
-          exit 1
+          if [[ ${{ github.sha }} == ${{ env.STAGING_SHA }} ]]; then
+            exit 0
+          else
+            echo "ERROR: You can only merge to main from staging."
+            exit 1
+          fi
