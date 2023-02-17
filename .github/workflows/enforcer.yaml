@@ -14,8 +14,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set env
-        run: export STAGING_SHA=$(git rev-parse staging) && \
-          export MAIN_SHA=$(git rev-parse HEAD)
+        run: echo "STAGING_SHA=$(git rev-parse staging)" >> $GITHUB_ENV && \
+          echo "MAIN_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
       - name: Check branch
         if: ${{ env.MAIN_SHA != env.STAGING_SHA }}
         run: |
