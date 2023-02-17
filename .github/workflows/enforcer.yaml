@@ -9,15 +9,13 @@ jobs:
   check_branch:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          ref: staging
       - name: Set env
-        run: echo "STAGING_SHA=$(git rev-parse staging)" >> $GITHUB_ENV && \
-          echo "MAIN_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        run: echo "STAGING_SHA=$(git rev-parse staging)" >> $GITHUB_ENV 
       - name: Check branch
-        if: ${{ env.MAIN_SHA != env.STAGING_SHA }}
+        if: ${{ github.sha != env.STAGING_SHA }}
         run: |
           echo "ERROR: You can only merge to main from staging."
           exit 1
