@@ -24,7 +24,7 @@ jobs:
           command: ssh -oStrictHostKeyChecking=no -v $USER@$IP "cd CD-example-app/ && docker compose down"
       - run:
           name: Pull changes and rebuild
-          command: ssh -oStrictHostKeyChecking=no -v $USER@$IP "cd CD-example-app/ && git pull && docker compose up"
+          command: ssh -oStrictHostKeyChecking=no -v $USER@$IP "cd CD-example-app/ && git pull && docker compose up -d"
 
 
 
