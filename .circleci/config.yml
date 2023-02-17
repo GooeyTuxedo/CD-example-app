@@ -6,10 +6,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - run:
-          name: Check branch
-          command: |
-          if [[ $(git rev-parse HEAD) == $(git rev-parse staging) ]]; then
+      - run: |
+          if [ $(git rev-parse HEAD) == $(git rev-parse staging) ]; then
             echo "SUCCESS: deploy conditions met"
             exit 0
           else
