@@ -5,9 +5,9 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - checkout
+      - run: git clone -b staging "$CIRCLE_REPOSITORY_URL" .
       - run: |
-          if [ $(git rev-parse HEAD) == $(git rev-parse staging) ]; then
+          if [ << pipeline.git.revision >> == $(git rev-parse HEAD) ]; then
             echo "SUCCESS: deploy conditions met"
             exit 0
           else
