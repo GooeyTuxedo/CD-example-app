@@ -15,12 +15,24 @@ jobs:
             echo "ERROR: You can only deploy when main and staging point to the same commit."
             exit 1
           fi
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "SSH into VPS here to pull repo, build, and redeploy"
 
 
 workflows:
   deploy-workflow:
     jobs:
       - check-branch:
+          filters:
+            branches:
+              only:
+                - main
+      - deploy:
+          requires:
+            - check-branch
           filters:
             branches:
               only:
