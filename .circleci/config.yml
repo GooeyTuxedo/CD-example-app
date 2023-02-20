@@ -62,5 +62,6 @@ workflows:
             - tag-release
           filters:
             branches:
-              only:
-                - main
+              ignore: /.*/
+            tags:
+              only: /^v.*/
