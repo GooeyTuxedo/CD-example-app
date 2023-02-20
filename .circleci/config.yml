@@ -22,7 +22,10 @@ jobs:
       - image: cimg/node:18.14.1
     steps:
       - checkout
-      - run: cd bezkoder-app && npx semantic-release
+      - run: |
+          cd bezkoder-app
+          npm install
+          npx semantic-release
   deploy:
     docker:
       - image: cimg/base:stable
