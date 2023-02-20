@@ -37,7 +37,7 @@ jobs:
           name: Pull changes and rebuild
           command: ssh -oStrictHostKeyChecking=no -v $USER@$IP "cd CD-example-app/ && git pull && docker compose up --build -d"
       - discord/status:
-          success_message: ":tada: A production deployment has occured."
+          success_message: ":tada: A production deployment of ${CIRCLE_TAG} has occured."
           failure_message: "PRODUCTION DEPLOYMENT FAILED"
 
 
