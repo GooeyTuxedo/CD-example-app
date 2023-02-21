@@ -58,8 +58,6 @@ workflows:
               only:
                 - main
       - deploy:
-          requires:
-            - tag-release
           filters:
             branches:
               ignore: /.*/
