@@ -23,7 +23,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          cd bezkoder-app
+          cd nextjs-docker
           npm install
           npx semantic-release
   deploy:
