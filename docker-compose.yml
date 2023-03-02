@@ -5,6 +5,7 @@ services:
     image: haproxy:latest
     container_name: haproxy
     hostname: haproxy
+    env_file: ./.env
     restart: always
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
@@ -20,6 +21,7 @@ services:
     build: ./certbot
     container_name: certbot
     hostname: certbot
+    env_file: ./.env
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do . /etc/scripts/renew-certificates.sh ; sleep 12h & wait $${!}; done;'"
     restart: always
     volumes:
@@ -34,7 +36,6 @@ services:
     container_name: nextjs-app
     hostname: nextjs
     restart: unless-stopped
-    env_file: ./.env
     stdin_open: true
     tty: true
     ports:
