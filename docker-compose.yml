@@ -35,6 +35,7 @@ services:
     build: ./nextjs-docker
     container_name: nextjs-app
     hostname: nextjs
+    env_file: ./.env
     restart: unless-stopped
     stdin_open: true
     tty: true
