@@ -8,14 +8,28 @@ services:
     restart: always
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-      # - certificates:/usr/local/etc/haproxy/certificates:ro
+      - certificates:/usr/local/etc/haproxy/certificates:ro
     networks:
       - default
       - hapnet
     ports:
       - "80:80"
-      # - "443:443"
-      # - "9999"
+      - "443:443"
+      - "9999"
+  certbot:
+    build: ./certbot
+    image: certbot/certbot:latest
+    container_name: certbot
+    hostname: certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do . /etc/scripts/renew-certificates.sh ; sleep 12h & wait $${!}; done;'"
+    restart: always
+    volumes:
+      - certificates:/etc/certificates
+    networks:
+      - default
+      - hapnet
+    ports:
+      - "380:380"
   nextjs-app:
     build: ./nextjs-docker
     container_name: nextjs-app
@@ -35,6 +49,5 @@ networks:
     driver: bridge
     internal: true
 
-# volumes:
-#   certificates:
-#     external: true
+volumes:
+  - certificates
