@@ -48,3 +48,6 @@ networks:
     name: hapnet
     driver: bridge
     internal: true
+
+volumes:
+  certificates:
