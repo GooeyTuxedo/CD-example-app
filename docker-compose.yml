@@ -1,12 +1,40 @@
 version: "3.8"
 
 services:
-  website:
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    hostname: haproxy
+    restart: always
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      # - certificates:/usr/local/etc/haproxy/certificates:ro
+    networks:
+      - default
+      - hapnet
+    ports:
+      - "80:80"
+      # - "443:443"
+      # - "9999"
+  nextjs-app:
     build: ./nextjs-docker
-    container_name: website
+    container_name: nextjs-app
+    hostname: nextjs
     restart: unless-stopped
     env_file: ./.env
-    ports:
-      - 3000:3000
     stdin_open: true
     tty: true
+    ports:
+      - 3000:3000
+    networks:
+      - hapnet
+
+networks:
+  hapnet:
+    name: hapnet
+    driver: bridge
+    internal: true
+
+# volumes:
+#   certificates:
+#     external: true
