@@ -18,7 +18,6 @@ services:
       - "9999"
   certbot:
     build: ./certbot
-    image: certbot/certbot:latest
     container_name: certbot
     hostname: certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do . /etc/scripts/renew-certificates.sh ; sleep 12h & wait $${!}; done;'"

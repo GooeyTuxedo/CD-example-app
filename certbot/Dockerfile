@@ -1,4 +1,4 @@
-FROM certbot/certbot
+FROM certbot/certbot:latest
 
 # Install socat
 RUN apk update && apk add socat
