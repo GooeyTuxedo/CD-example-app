@@ -2,7 +2,7 @@
 
 # Request certificates
 certbot certonly --dns-digitalocean \
-  --dns-digitalocean-credentials /tmp/digitalocean.ini \
+  --dns-digitalocean-credentials ~/digitalocean.ini \
   --non-interactive --agree-tos --email $ADMIN_EMAIL --http-01-port=380 \
   --cert-name $DOMAIN_URL \
   -d $DOMAIN_URL \
