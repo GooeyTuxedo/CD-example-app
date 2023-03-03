@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import ipfsClient from 'ipfs-http-client'
-import * as dotenv from 'dotenv'
-dotenv.config()
 
 const url = process.env.DOMAIN_URL
 const videoHash = process.env.VIDEO_HASH
