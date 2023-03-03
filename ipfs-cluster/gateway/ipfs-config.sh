@@ -5,18 +5,14 @@
 ## https://github.com/koalaman/shellcheck/blob/master/src/ShellCheck/Data.hs#L134
 echo "setting Gateway config"
 ipfs config --json Gateway '{
-        "HTTPHeaders": {
-            "Access-Control-Allow-Origin": [
-                "*"
-            ]
-        },
         "RootRedirect": "",
         "Writable": false,
         "APICommands": [],
         "NoFetch": false,
         "PublicGateways": {
-            "$IPFS_GATEWAY_URL": {
+            "'$IPFS_GATEWAY_URL'": {
                 "UseSubdomains": true,
+                "NoDNSLink": true,
                 "Paths": ["/ipfs", "/ipns"]
             }
         }
