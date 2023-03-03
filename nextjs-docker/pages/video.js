@@ -15,7 +15,7 @@ export default function Video() {
     async function getVideoFromIPFS() {
       try {
         const { cid } = await client.resolve(`/ipfs/${videoHash}`)
-        const videoUrl = `https://gateway.ipfs.io/ipfs/${cid.toString()}`
+        const videoUrl = `https://ipfs.${url}/ipfs/${cid.toString()}`
 
         setVideoUrl(videoUrl)
       } catch (e) {
