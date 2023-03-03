@@ -6,14 +6,13 @@
 echo "setting Gateway config"
 ipfs config --json Gateway '{
         "RootRedirect": "",
-        "Writable": false,
         "APICommands": [],
         "NoFetch": false,
         "PublicGateways": {
             "'$IPFS_GATEWAY_URL'": {
                 "UseSubdomains": true,
-                "NoDNSLink": true,
-                "Paths": ["/ipfs", "/ipns"]
+                "Paths": ["/ipfs/", "/ipns/"],
+                "InlineDNSLink": true
             }
         }
     }'
