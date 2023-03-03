@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import ipfsClient from 'ipfs-http-client'
-import dotenv from 'dotenv'
+import * as dotenv from 'dotenv'
 dotenv.config()
 
 const url = process.env.DOMAIN_URL
