@@ -18,7 +18,7 @@ services:
       - "4001:4001/udp"
       # note: do not expose 5001 to the internet
       - "5001:5001" # ipfs api - expose if needed/wanted
-      - "8080:8080" # ipfs gateway - expose if needed/wanted
+      - "8081:8081" # ipfs gateway - expose if needed/wanted
     volumes:
       - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/ipfs0:/data/ipfs
 
@@ -51,7 +51,10 @@ services:
 
   ipfs1:
     container_name: ipfs1
-    image: ipfs/kubo:release
+    build: ./gateway
+    env_file: .env
+    ports:     
+      - "8082:8082"
     volumes:
       - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/ipfs1:/data/ipfs
 
@@ -75,7 +78,10 @@ services:
 
   ipfs2:
     container_name: ipfs2
-    image: ipfs/kubo:release
+    build: ./gateway
+    env_file: .env
+    ports:     
+      - "8083:8083"
     volumes:
       - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/ipfs2:/data/ipfs
 
