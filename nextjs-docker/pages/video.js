@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import ipfsClient from 'ipfs-http-client'
+import { create } from 'ipfs-http-client'
 
 const url = process.env.DOMAIN_URL
 const videoHash = process.env.VIDEO_HASH
 
-const client = ipfsClient({ host: `ipfs.${url}`, port: 8080, protocol: 'https' })
+const client = create({ host: `ipfs.${url}`, port: 8080, protocol: 'https' })
 
 export default function Video() {
   const [videoUrl, setVideoUrl] = useState(null)
