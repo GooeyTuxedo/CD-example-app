@@ -35,10 +35,12 @@ services:
     build: ./nextjs-docker
     container_name: nextjs-app
     hostname: nextjs
-    env_file: ./.env
     restart: unless-stopped
     stdin_open: true
     tty: true
+    environment:
+      - DOMAIN_URL=${DOMAIN_URL}
+      - VIDEO_HASH=${VIDEO_HASH}
     ports:
       - 3000:3000
     networks:
