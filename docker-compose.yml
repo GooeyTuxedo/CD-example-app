@@ -38,9 +38,6 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
-    environment:
-      - DOMAIN_URL=${DOMAIN_URL}
-      - VIDEO_HASH=${VIDEO_HASH}
     ports:
       - 3000:3000
     networks:
