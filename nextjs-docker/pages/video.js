@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { create } from 'ipfs-http-client'
 
-const url = process.env.DOMAIN_URL
-const videoHash = process.env.VIDEO_HASH
+const url = process.env.NEXT_PUBLIC_DOMAIN_URL
+const videoHash = process.env.NEXT_PUBLIC_VIDEO_HASH
 
 const client = create({ host: `ipfs.${url}`, port: 8080, protocol: 'https' })
 
