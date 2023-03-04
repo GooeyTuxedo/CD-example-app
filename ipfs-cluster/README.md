@@ -1,0 +1,1 @@
+open up ports 8081, 8082, 8083 in your network gateway
