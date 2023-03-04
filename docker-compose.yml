@@ -41,7 +41,7 @@ services:
       - digitalocean_token
   ipfs0:
     container_name: ipfs0
-    build: .ipfs-cluster/gateway
+    build: ./ipfs-cluster/gateway
     env_file: ./.env
     ports:     
     # Swarm listens on all interfaces, so is remotely reachable.
