@@ -43,6 +43,8 @@ services:
     container_name: ipfs0
     build: ./ipfs-cluster/gateway
     env_file: ./.env
+    depends_on:
+      - certbot
     ports:     
     # Swarm listens on all interfaces, so is remotely reachable.
       - "4001:4001/tcp"
