@@ -64,6 +64,7 @@ services:
     environment:
       API_PINSVCAPI_SSLCERTFILE: /etc/certificates/${DOMAIN_URL}.pem
       CLUSTER_PEERNAME: cluster0
+      CLUSTER_PEERADDRESSES: /ip4/${IPFS_GATEWAY_IP}/tcp/9096/p2p/${IPFS_CLUSTER_PEER}
       CLUSTER_SECRET: ${CLUSTER_SECRET} # From shell variable if set
       CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs0/tcp/5001
       CLUSTER_CRDT_TRUSTEDPEERS: '*' # Trust all peers in Cluster
