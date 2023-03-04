@@ -34,6 +34,8 @@ services:
       - hapnet
     ports:
       - "380:380"
+    secrets:
+      - digitalocean_token
   nextjs-app:
     build: ./nextjs-docker
     container_name: nextjs-app
@@ -54,3 +56,7 @@ networks:
 
 volumes:
   certificates:
+
+secrets:
+  digitalocean_token:
+    file: ./digitalocean.ini
