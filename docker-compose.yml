@@ -82,7 +82,7 @@ services:
       - hapnet
     volumes:
       - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/cluster0:/data/ipfs-cluster
-      - certificates:/etc/certificates:ro
+      - certificates:/etc/certificates
   nextjs-app:
     build: ./nextjs-docker
     container_name: nextjs-app
