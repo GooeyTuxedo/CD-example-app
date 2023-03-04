@@ -16,6 +16,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "4001:4001" # These ports
+      - "9096:9096" # are for
+      - "9097:9097" # ipfs
       - "9999"
   certbot:
     container_name: certbot
@@ -36,6 +39,47 @@ services:
       - "380:380"
     secrets:
       - digitalocean_token
+  ipfs0:
+    container_name: ipfs0
+    build: .ipfs-cluster/gateway
+    env_file: ./.env
+    ports:     
+    # Swarm listens on all interfaces, so is remotely reachable.
+      - "4001:4001/tcp"
+      - "4001:4001/udp"
+      # note: do not expose 5001 to the internet
+      - "5001:5001" # ipfs api - expose if needed/wanted
+      - "8080:8080" # ipfs gateway - expose if needed/wanted
+    networks:
+      - hapnet
+    volumes:
+      - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/ipfs0:/data/ipfs
+      - certificates:/etc/certificates
+  cluster0:
+    container_name: cluster0
+    image: ipfs/ipfs-cluster:latest
+    depends_on:
+      - ipfs0
+    hostname: cluster0
+    environment:
+      API_PINSVCAPI_SSLCERTFILE: /etc/certificates/${DOMAIN_URL}.pem
+      CLUSTER_PEERNAME: cluster0
+      CLUSTER_SECRET: ${CLUSTER_SECRET} # From shell variable if set
+      CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs0/tcp/5001
+      CLUSTER_CRDT_TRUSTEDPEERS: '*' # Trust all peers in Cluster
+      CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9094 # Expose API
+      CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+    ports:
+          # Open API port (allows ipfs-cluster-ctl usage)
+         # - "9094:9094"
+          - "9096:9096" # Cluster switch endpoint
+          - "9097:9097" # Cluster pinning service enpoint
+          # note: do not expose 9095 to the internet
+          # - "9095:9095" # Cluster IPFS Proxy endpoint
+    networks:
+      - hapnet
+    volumes:
+      - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/cluster0:/data/ipfs-cluster
   nextjs-app:
     build: ./nextjs-docker
     container_name: nextjs-app
