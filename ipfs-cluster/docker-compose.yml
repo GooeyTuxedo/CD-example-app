@@ -31,6 +31,7 @@ services:
     environment:
       CLUSTER_PEERNAME: cluster1
       CLUSTER_SECRET: ${CLUSTER_SECRET} # From shell variable if set
+      # CLUSTER_PEERADDRESSES: /ip4/${IPFS_CLUSTER_PEER_IP}/tcp/9096/p2p/${IPFS_CLUSTER_PEER}
       CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs1/tcp/5001
       CLUSTER_CRDT_TRUSTEDPEERS: '*' # Trust all peers in Cluster
       CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9094 # Expose API
