@@ -46,6 +46,7 @@ services:
           # - "9097:9097/tcp" # Cluster pinning service enpoint
     volumes:
       - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/cluster1:/data/ipfs-cluster
+      - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/staging:/data/staging
 
 ##################################################################################
 ## Cluster PEER 2 ################################################################
