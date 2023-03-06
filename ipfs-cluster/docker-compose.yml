@@ -48,7 +48,7 @@ services:
           # But this is just a testing cluster.
           # - "9095:9095" # Cluster IPFS Proxy endpoint
           # - "9096:9096" # Cluster swarm endpoint
-          # - "9097:9097" # Cluster pinning service enpoint
+          - "9097:9097" # Cluster pinning service enpoint
     volumes:
       - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/cluster1:/data/ipfs-cluster
       - ${IPFS_CLUSTER_DATADIR}/ipfs-cluster/staging:/data/staging
