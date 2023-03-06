@@ -10,11 +10,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Video />
+      <div className={styles.content}>
+        <Video />
 
-      <footer className={styles.footer}>
-          Powered by a Chadded up dev
-      </footer>
+        <footer className={styles.footer}>
+            Powered by a Chadded up dev
+        </footer>
+      </div>
     </div>
   )
 }
