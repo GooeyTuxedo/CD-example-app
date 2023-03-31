@@ -1,6 +1,6 @@
 import styles from '../styles/Video.module.css'
 
-export default function Video() {
+export default function Video({ url }) {
   const url = process.env.NEXT_PUBLIC_DOMAIN_URL
   const videoHash = process.env.NEXT_PUBLIC_VIDEO_HASH
   const videoUrl = `https://ipfs.${url}/ipfs/${videoHash}`

@@ -16,7 +16,8 @@
     ]
   },
   "dependencies": {
-    "ipfs-http-client": "^60.0.0",
+    "crypto-js": "^4.1.1",
+    "mongodb": "^5.1.0",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
