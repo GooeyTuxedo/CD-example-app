@@ -17,6 +17,7 @@ services:
       - "80:80"
       - "443:443"
       - "4001:4001" # ipfs switch
+      - "9097:9097" # ipfs pinning svc
       - "9999"
   certbot:
     container_name: certbot
