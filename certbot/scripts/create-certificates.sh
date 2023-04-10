@@ -11,7 +11,8 @@ certbot certonly --dns-digitalocean \
   -d "ipfs.$DOMAIN_URL" \
   -d "ipns.$DOMAIN_URL" \
   -d "*.ipfs.$DOMAIN_URL" \
-  -d "*.ipns.$DOMAIN_URL"
+  -d "*.ipns.$DOMAIN_URL" \
+  -d "pin.$DOMAIN_URL"
 
 # Concatenate certificates
 . /etc/scripts/concatenate-certificates.sh
