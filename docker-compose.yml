@@ -1,6 +1,5 @@
-version: "3.8"
-
 services:
+
   haproxy:
     image: haproxy:latest
     container_name: haproxy
@@ -16,15 +15,14 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "4001:4001" # ipfs switch
-      - "9097:9097" # ipfs pinning svc
+      # - "4001:4001" # ipfs switch
+      # - "9097:9097" # ipfs pinning svc
       - "9999"
+
   certbot:
     container_name: certbot
     build: 
       context: ./certbot
-      args:
-        - DO_TOKEN=${DIGITALOCEAN_TOKEN}
     hostname: certbot
     env_file: ./.env
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do . /etc/scripts/renew-certificates.sh ; sleep 12h & wait $${!}; done;'"
@@ -32,12 +30,57 @@ services:
     volumes:
       - certificates:/etc/certificates
     networks:
-      - default
       - hapnet
-    ports:
-      - "380:380"
     secrets:
       - digitalocean_token
+
+  drone-server:
+    image: drone/drone:latest
+    container_name: drone-server
+    hostname: drone
+    volumes:
+      - drone-data:/data
+    restart: always
+    environment:
+      - DRONE_SERVER_HOST=drone.${DOMAIN_URL}
+      - DRONE_SERVER_PROTO=https
+      - DRONE_USER_FILTER=${GITHUB_USERNAME}
+      - DRONE_TLS_AUTOCERT=false
+      - DRONE_GITHUB_SERVER=https://github.com
+      - DRONE_GITHUB_CLIENT_ID
+      - DRONE_GITHUB_CLIENT_SECRET
+      - DRONE_RPC_SECRET
+
+  runner:
+    image: drone/drone-runner-docker:latest
+    environment:
+      - DRONE_RPC_HOST=drone-server
+      - DRONE_RPC_PROTO=https
+      - DRONE_RPC_SECRET
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on: 
+      - haproxy
+      - drone-server
+    networks:
+      - hapnet
+
+  # redis-server:
+  #   image: redis
+  #   restart: always
+
+  # postgres:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=drone
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
+
   nextjs-app:
     build: ./nextjs-docker
     container_name: nextjs-app
@@ -45,8 +88,6 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
-    ports:
-      - 3000:3000
     networks:
       - hapnet
 
@@ -58,6 +99,7 @@ networks:
 
 volumes:
   certificates:
+  drone-data:
 
 secrets:
   digitalocean_token:
