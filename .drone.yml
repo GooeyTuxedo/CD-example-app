@@ -1,7 +1,60 @@
 kind: pipeline
 type: docker
+name: MegaLinter
 
-name: drone-server-build
+workspace:
+  path: /tmp/lint
+
+steps:
+
+- name: megalinter
+  image: oxsecurity/megalinter:v7
+  environment:
+    DEFAULT_WORKSPACE: /tmp/lint
+
+trigger:
+  event:
+    include:
+      - push
+      - pull_request
+
+---
+
+kind: pipeline
+type: docker
+name: DockerTestBuild
+
+steps:
+  - name: test
+    image: node
+    commands:
+      - npm install
+      - npm test
+
+  - name: build
+    image: docker:latest
+    environment:
+      DOMAIN_URL:
+        from_secret: DOMAIN_URL
+      ADMIN_EMAIL:
+        from_secret: ADMIN_EMAIL
+      VIDEO_HASH:
+        from_secret: VIDEO_HASH
+    commands:
+      - docker compose build nextjs-app
+  
+
+trigger:
+  event:
+    include:
+      - push
+      - pull_request
+
+---
+
+kind: pipeline
+type: docker
+name: DeployProduction
 
 steps:
   - name: build
@@ -14,17 +67,20 @@ steps:
       VIDEO_HASH:
         from_secret: VIDEO_HASH
     commands:
-      - docker compose build nextjs-app
-    when:
-      branch:
-        - dev
+      - docker compose build nextjs-app --tag prod-build-${DRONE_BUILD_NUMBER}
   
-  # - name: publish
-  #   image: plugins/docker
-  #   settings:
-  #     repo: your-docker-registry/your-docker-image-name
-  #     tags: [your-tag, latest]
-  #     username:
-  #       from_secret: docker_username
-  #     password:
-  #       from_secret: docker_password
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: ${private_registry}/nextjs-app
+      tags: ["prod-build-${DRONE_BUILD_NUMBER}", latest]
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+trigger:
+  target:
+    - production
+  event:
+    - promote
