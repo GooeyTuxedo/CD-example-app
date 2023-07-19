@@ -4,7 +4,6 @@ services:
     image: haproxy:latest
     container_name: haproxy
     hostname: haproxy
-    env_file: ./.env
     restart: always
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
@@ -19,13 +18,14 @@ services:
       # - "4001:4001" # ipfs switch
       # - "9097:9097" # ipfs pinning svc
       - "9999"
+    environment:
+      - DOMAIN_URL
 
   certbot:
     container_name: certbot
     build: 
       context: ./certbot
     hostname: certbot
-    env_file: ./.env
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do . /etc/scripts/renew-certificates.sh ; sleep 12h & wait $${!}; done;'"
     restart: always
     volumes:
@@ -34,6 +34,9 @@ services:
       - hapnet
     secrets:
       - digitalocean_token
+    environment:
+      - DOMAIN_URL
+      - ADMIN_EMAIL
 
   drone-server:
     image: drone/drone:latest
@@ -54,7 +57,7 @@ services:
     networks:
       - drone
 
-  runner:
+  drone-runner:
     image: drone/drone-runner-docker:latest
     container_name: drone-runner
     environment:
@@ -91,6 +94,9 @@ services:
     tty: true
     networks:
       - hapnet
+    environment:
+      - NEXT_PUBLIC_DOMAIN_URL={$DOMAIN_URL}
+      - NEXT_PUBLIC_VIDEO_HASH={$VIDEO_HASH}
 
 networks:
   hapnet:
