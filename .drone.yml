@@ -39,8 +39,10 @@ steps:
       - docker build ./nextjs-docker --tag nextjs-app:test-build-${DRONE_BUILD_NUMBER}
 
   - name: test
-    image: nextjs-app:test-build-${DRONE_BUILD_NUMBER}
+    image: node
     commands:
+      - cd ./nextjs-docker
+      - npm install
       - npm run test
 
 trigger:
