@@ -11,6 +11,7 @@ steps:
   image: oxsecurity/megalinter:v7
   environment:
     DEFAULT_WORKSPACE: /tmp/lint
+    ENABLE: JAVASCRIPT,YAML,MARKDOWN
 
 trigger:
   event:
@@ -25,12 +26,6 @@ type: docker
 name: DockerTestBuild
 
 steps:
-  - name: test
-    image: node
-    commands:
-      - npm install
-      - npm test
-
   - name: build
     image: docker:latest
     environment:
@@ -41,8 +36,12 @@ steps:
       VIDEO_HASH:
         from_secret: VIDEO_HASH
     commands:
-      - docker compose build nextjs-app
-  
+      - docker compose build nextjs-app -t test-build-${DRONE_BUILD_NUMBER}
+
+  - name: test
+    image: test-build-${DRONE_BUILD_NUMBER}
+    commands:
+      - npm run test
 
 trigger:
   event:
