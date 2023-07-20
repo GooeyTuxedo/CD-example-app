@@ -1,0 +1,5 @@
+# APPLY_FIXES: all
+
+POST_COMMANDS:
+  - command: exit 0
+    cwd: "workspace"

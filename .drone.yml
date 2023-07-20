@@ -36,10 +36,10 @@ steps:
       VIDEO_HASH:
         from_secret: VIDEO_HASH
     commands:
-      - docker compose build nextjs-app -t test-build-${DRONE_BUILD_NUMBER}
+      - docker build ./nextjs-docker --tag nextjs-app:test-build-${DRONE_BUILD_NUMBER}
 
   - name: test
-    image: test-build-${DRONE_BUILD_NUMBER}
+    image: nextjs-app:test-build-${DRONE_BUILD_NUMBER}
     commands:
       - npm run test
 
@@ -66,7 +66,7 @@ steps:
       VIDEO_HASH:
         from_secret: VIDEO_HASH
     commands:
-      - docker compose build nextjs-app --tag prod-build-${DRONE_BUILD_NUMBER}
+      - docker build ./nextjs-docker --tag nextjs-app:prod-build-${DRONE_BUILD_NUMBER}
   
   - name: publish
     image: plugins/docker
